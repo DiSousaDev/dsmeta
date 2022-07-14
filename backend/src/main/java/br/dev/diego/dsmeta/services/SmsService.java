@@ -2,6 +2,7 @@ package br.dev.diego.dsmeta.services;
 
 import br.dev.diego.dsmeta.entities.Sale;
 import br.dev.diego.dsmeta.repositories.SaleRepository;
+import br.dev.diego.dsmeta.services.exceptions.DataNotFoundException;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,7 +44,7 @@ public class SmsService {
         PhoneNumber from = new PhoneNumber(twilioPhoneFrom);
 
         Sale sale = saleRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Venda não encontrada"));
+                new DataNotFoundException("Venda não encontrada"));
         String msg = "Data: " + brDate(sale.getDate()) +
                         "\nVendedor: " + sale.getSellerName() +
                         "\nValor: " + brValue(sale.getAmount());

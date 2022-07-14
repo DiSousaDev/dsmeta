@@ -16,11 +16,12 @@ public class SaleRespondeDto {
     public SaleRespondeDto() {
     }
 
-    public SaleRespondeDto(Long id, String sellerName, Integer visited, Integer deals, LocalDate date) {
+    public SaleRespondeDto(Long id, String sellerName, Integer visited, Integer deals, Double amount, LocalDate date) {
         this.id = id;
         this.sellerName = sellerName;
         this.visited = visited;
         this.deals = deals;
+        this.amount = amount;
         this.date = date;
     }
 
@@ -29,6 +30,7 @@ public class SaleRespondeDto {
         sellerName = entity.getSellerName();
         visited = entity.getVisited();
         deals = entity.getDeals();
+        amount = entity.getAmount();
         date = entity.getDate();
     }
 
