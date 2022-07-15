@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import './styles.css';
 import axios from 'axios';
-import { BASE_URL, dateBr, valueBr } from '../../utils/request';
+import { BASE_URL, getBrDate, getInputDate, getBrValue } from '../../utils/request';
 import { Sale } from '../../models/sale';
 
 function SalesCard() {
@@ -19,11 +19,15 @@ function SalesCard() {
     const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/sales`)
+
+        const dmin = getInputDate(minDate);
+        const dmax = getInputDate(maxDate);
+
+        axios.get(`${BASE_URL}/sales?minDate=${dmin}&maxDate=${dmax}`)
             .then(response => {
                 setSales(response.data.content);
             });
-    }, []);
+    }, [minDate, maxDate]);
 
     return (
         <div className="dsmeta-card">
@@ -66,11 +70,11 @@ function SalesCard() {
                                 return (
                                     <tr key={sale.id}>
                                         <td className="show992">#{sale.id}</td>
-                                        <td className="show576">{dateBr(sale.date)}</td>
+                                        <td className="show576">{getBrDate(sale.date)}</td>
                                         <td>{sale.sellerName}</td>
                                         <td className="show992">{sale.visited}</td>
                                         <td className="show992">{sale.deals}</td>
-                                        <td>{valueBr(sale.amount)}</td>
+                                        <td>{getBrValue(sale.amount)}</td>
                                         <td>
                                             <div className="dsmeta-red-btn-container">
                                                 <NotificationButton />
